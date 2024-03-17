@@ -7,6 +7,10 @@
 </head>
 <body>
     <main>
+        <form id="formChamp">
+            <input type="search" id="champ" name="search_champ" placeholder="Recherche un champion">
+            <button type="submit">Rechercher</button>
+        </form>
         <img id="championImage" src="">
         <table id="statsTable">
             <thead>
@@ -16,10 +20,25 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Les statistiques seront ajoutées ici dynamiquement -->
+            </tbody>
+        </table>
+        <form id="formItem">
+            <input type="search" id="item" name="search_champ" placeholder="Recherche un item">
+            <button type="submit">Rechercher</button>
+        </form>
+        <img id="itemImage" src="">
+        <table id="itemTable">
+            <thead>
+            <tr>
+                <th>Statistique</th>
+                <th>Valeur</th>
+            </tr>
+            </thead>
+            <tbody>
             </tbody>
         </table>
     </main>
-    <script src="/src/js/Recuperation.js"></script>    </main>
+        <script src="/src/js/Recuperation.js"></script>
+    </main>
 </body>
 </html>
