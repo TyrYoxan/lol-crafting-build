@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Theorie crafting</title>
-
+    <link href="src/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/jpg" href="img/logo2.jpg">
 </head>
 <body>
     <main>
@@ -11,33 +12,43 @@
             <input type="search" id="champ" name="search_champ" placeholder="Recherche un champion">
             <button type="submit">Rechercher</button>
         </form>
-        <img id="championImage" src="">
-        <table id="statsTable">
-            <thead>
-            <tr>
-                <th>Statistique</th>
-                <th>Valeur</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div>
+            <img id="championImage" src="">
+            <table id="statsTable">
+                <thead>
+                <tr>
+                    <th>Statistique</th>
+                    <th>Valeur</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <table id="stuff">
+                <tbody>
+                    <tr><td id="0"></td><td id="1"></td><td id="2"></td></tr>
+                    <tr><td id="3"></td><td id="4"></td><td id="5"></td></tr>
+                </tbody>
+            </table>
+        </div>
         <form id="formItem">
             <input type="search" id="item" name="search_champ" placeholder="Recherche un item">
             <button type="submit">Rechercher</button>
         </form>
-        <img id="itemImage" src="">
-        <table id="itemTable">
-            <thead>
-            <tr>
-                <th>Statistique</th>
-                <th>Valeur</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </main>
+        <div class="item" style="visibility:hidden">
+            <img id="itemImage" src="">
+            <table id="itemTable">
+                <thead>
+                <tr>
+                    <th>Statistique</th>
+                    <th>Valeur</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button id="addItem">Add item</button>
+        </div>
         <script src="/src/js/Recuperation.js"></script>
     </main>
 </body>

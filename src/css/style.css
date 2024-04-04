@@ -1,0 +1,45 @@
+body{
+    display: flex;
+    justify-content: center;
+}
+
+main{
+    background-color: cornflowerblue;
+    width: 500px;
+}
+
+.delete-btn {
+    cursor: pointer;
+    font-size: 14px;
+    color: red;
+    position: relative;
+    top: -3px;
+    right: 10px;
+}
+
+.delete-btn:hover {
+    color: darkred;
+}
+
+.spell{
+    width: 5vh;
+    border-radius: 5px;
+    margin: 0 2px 0 2px;
+}
+#passive{
+    margin-right: 25px;
+}
+
+table{
+    margin-left: 5px;
+}
+
+td > img{
+    border-radius: 2px;
+    margin-left: 2px;
+}
+
+#stuff  td  img{
+    border-radius: 5px;
+    width: 50%;
+}
