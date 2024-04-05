@@ -4,6 +4,7 @@ var imgChamp = '';
 var item = '';
 var stuff = [];
 var statesChamp = [];
+var statesChampInit = [];
 var namePassif= '';
 var spell = [];
 var tmpItem;
@@ -91,12 +92,15 @@ document.getElementById("formChamp").addEventListener("submit",(event)=>{
     xhr2.onreadystatechange = function () {
         if (xhr2.readyState === 4 && xhr2.status === 200){
             const data = JSON.parse(xhr2.responseText);
-            statesChamp = data['data'][champ]['stats'];
-            namePassif = data['data'][champ]['passive']['image']['full'];
+            statesChamp = JSON.parse(JSON.stringify(data['data'][champ]['stats']));
+            statesChampInit = JSON.parse(JSON.stringify(data['data'][champ]['stats']));
+            namePassif = data['data'][champ]['passive'];
             spell = data['data'][champ]['spells'];
-            console.log(spell);
+
             console.log(statesChamp);
             afficherStats(data['data'][champ]['stats'],1);
+            graph1();
+
         }
 
     }
@@ -108,6 +112,7 @@ document.getElementById("formChamp").addEventListener("submit",(event)=>{
 // Définir l'attribut src de l'élément img
     imgElement.src = imgChamp;
     item = 'https://ddragon.leagueoflegends.com/cdn/'+ path +'/data/en_US/item.json';
+
 });
 
 function afficherStats(stats, champion = 0) {
@@ -128,30 +133,78 @@ function afficherStats(stats, champion = 0) {
         let spellP = document.createElement('img');
         spellP.classList.add('spell');
         spellP.id = 'passive';
-        spellP.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/passive/${namePassif}`;
-
+        spellP.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/passive/${namePassif['image']['full']}`;
+        let descP = document.createElement('p');
+        descP.id = 'descP';
+        descP.innerHTML = namePassif['description'];
         div.appendChild(spellP);
+        spellP.addEventListener("click", function (){
+            if(divDesc.childNodes) {
+                divDesc.innerHTML = "";
+            }
+            divDesc.appendChild(descP);
+        })
 
         let spellQ= document.createElement("img");
         spellQ.classList.add('spell');
         spellQ.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/spell/${spell[0]['id']}.png`;
+        let descQ = document.createElement('p');
+        descQ.id = 'descQ';
+        descQ.innerHTML = spell[0]['description'];
         div.appendChild(spellQ);
+        spellQ.addEventListener("click", function () {
+            if(divDesc.childNodes) {
+                divDesc.innerHTML = "";
+            }
+            divDesc.appendChild(descQ);
+        })
 
         let spellW= document.createElement("img");
         spellW.classList.add('spell');
         spellW.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/spell/${spell[1]['id']}.png`;
+        let descW = document.createElement('p');
+        descW.id = 'descW';
+        descW.innerHTML = spell[1]['description'];
         div.appendChild(spellW);
+        spellW.addEventListener("click", function () {
+            if(divDesc.childNodes) {
+                divDesc.innerHTML = "";
+            }
+            divDesc.appendChild(descW);
+        })
 
         let spellE= document.createElement("img");
         spellE.classList.add('spell');
         spellE.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/spell/${spell[2]['id']}.png`;
+        let descE = document.createElement('p');
+        descE.id = 'descE';
+        descE.innerHTML = spell[2]['description'];
         div.appendChild(spellE);
+        spellE.addEventListener("click", function () {
+            if(divDesc.childNodes) {
+                divDesc.innerHTML = "";
+            }
+            divDesc.appendChild(descE);
+        })
 
         let spellR= document.createElement("img");
         spellR.classList.add('spell');
         spellR.src=`https://ddragon.leagueoflegends.com/cdn/${path}/img/spell/${spell[3]['id']}.png`;
+        let descR = document.createElement('p');
+        descR.id = 'descR';
+        descR.innerHTML = spell[3]['description'];
         div.appendChild(spellR);
         document.querySelector('div').appendChild(div);
+        spellR.addEventListener("click", function () {
+            if(divDesc.childNodes) {
+                divDesc.innerHTML = "";
+            }
+            divDesc.appendChild(descR);
+        })
+
+        let divDesc = document.createElement('div');
+        document.querySelector('div').appendChild(divDesc);
+
     }
 
 
@@ -179,7 +232,6 @@ function afficherStats(stats, champion = 0) {
         tr.appendChild(tdValue);
         tbody.appendChild(tr);
     }
-
 }
 
 document.getElementById("formItem").addEventListener('submit', (event)=>{
@@ -197,7 +249,6 @@ document.getElementById("formItem").addEventListener('submit', (event)=>{
 
     }
     xhr.send();//nécessaire
-
 
     // Convertir l'objet en un tableau de paires clé-valeur
     const entries = Object.entries(data['data']);
@@ -230,14 +281,14 @@ document.getElementById("formItem").addEventListener('submit', (event)=>{
         // Définir l'attribut src de l'élément img
         imgItem.src = 'https://ddragon.leagueoflegends.com/cdn/'+ path +'/img/item/'+ uniqueEntries[index][0] + '.png';
     }
-
+    const desc = uniqueEntries[index][1].description;
+    values.push(desc);
     //Recuperation des attributs de l'item
     while ((matches = regex.exec(uniqueEntries[index][1].description)) !== null) {
         const attentionValue = matches[1];
         const nextText = matches[2];
         values.push({ attentionValue, nextText });
     }
-    console.log(uniqueEntries)
     afficherStats2(values)
     tmpItem = uniqueEntries[index];
 })
@@ -346,6 +397,8 @@ document.getElementById("addItem").addEventListener("click", ()=>{
 
     }
 
+    graph1();
+
 });
 
 function dichotomiqueSearch(array, item){
@@ -368,27 +421,83 @@ function dichotomiqueSearch(array, item){
 }
 
 function afficherStats2(stats) {
-    document.querySelector("#itemTable tbody").innerHTML= "";
-
+    console.log('stats:' + stats)
+    document.querySelector("#itemTable tbody").innerHTML = "";
+    if(document.querySelector('.item p')){
+        document.querySelector('.item').removeChild(document.querySelector('.item p'))
+    }
 
     let tbody = document.querySelector('#itemTable tbody');
-    for (let stat in stats) {
+    const objets = stats.filter(item => typeof item === 'object');
 
+    // Parcourir les objets filtrés
+    for (let stat of objets) {
         let tr2 = document.createElement('tr');
         let tdState = document.createElement('td');
         let tdValue = document.createElement('td');
         let img = document.createElement('img');
 
-        let tag = [stats[stat].nextText];
-        console.log(tag[0].trim())
-        tdValue.textContent = stats[stat].attentionValue; // Utiliser attentionValue comme contenu de tdValue
+        let tag = [stat.nextText];
+        tdValue.textContent = stat.attentionValue; // Utiliser attentionValue comme contenu de tdValue
         img.src = icon[tag[0].trim()];
-        console.log(tag[0].trim())
-        img.alt = 'icon ' + stats[stat].nextText;
+        img.alt = 'icon ' + (stats.indexOf(stat) + 1 < stats.length ? stats[stats.indexOf(stat) + 1].nextText : '');
         tdState.appendChild(img);
 
         tr2.appendChild(tdState);
         tr2.appendChild(tdValue);
         tbody.appendChild(tr2);
     }
+
+    let desc = document.createElement('p');
+    desc.innerHTML = stats[0];
+    document.querySelector('.item').appendChild(desc);
 }
+
+var grap1 = null;
+function graph1(){
+    console.log(statesChamp);
+    var ctx = document.querySelector('#graph1').getContext('2d');
+    let graph1_data = {
+        labels: ['RM', 'AR', 'AD', 'AP', 'Speed'],
+        datasets: [{
+            label: 'Stats with items',
+            data: [statesChamp['spellblock'], statesChamp['armor'], statesChamp['attackdamage'], statesChamp['abilitypower'] || 0, statesChamp['movespeed']],
+            fill: true,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgb(255, 99, 132)',
+            pointBackgroundColor: 'rgb(255, 99, 132)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(255, 99, 132)'},
+            {label: 'Stats without items',
+                data: [statesChampInit['spellblock'], statesChampInit['armor'], statesChampInit['attackdamage'], statesChampInit['abilitypower'] || 0, statesChampInit['movespeed']],
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(54, 162, 235)',
+                pointBackgroundColor: 'rgb(54, 162, 235)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(54, 162, 235)'}]
+    };
+    const config = {
+        type: 'radar',
+        data: graph1_data,
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+
+                }
+
+            },
+            cutoutPercentage: 70
+        },
+    };
+
+    if(grap1){
+        grap1.destroy();
+    }
+
+   grap1 = new Chart(ctx, config);
+}
+

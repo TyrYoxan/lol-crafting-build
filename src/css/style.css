@@ -1,11 +1,13 @@
 body{
     display: flex;
     justify-content: center;
+    background: burlywood;
 }
 
 main{
     background-color: cornflowerblue;
     width: 500px;
+    padding: 10px;
 }
 
 .delete-btn {
@@ -22,7 +24,7 @@ main{
 }
 
 .spell{
-    width: 5vh;
+    width: 10%;
     border-radius: 5px;
     margin: 0 2px 0 2px;
 }
@@ -42,4 +44,14 @@ td > img{
 #stuff  td  img{
     border-radius: 5px;
     width: 50%;
+}
+
+#spellDiv{
+    display: flex;
+    align-items: baseline;
+}
+
+#graph1{
+    width: 200px!important;
+    height: 200px!important;
 }

@@ -5,6 +5,8 @@
     <title>Theorie crafting</title>
     <link href="src/css/style.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/jpg" href="img/logo2.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="/src/js/Recuperation.js" defer></script>
 </head>
 <body>
     <main>
@@ -31,6 +33,7 @@
                 </tbody>
             </table>
         </div>
+        <canvas id="graph1"></canvas>
         <form id="formItem">
             <input type="search" id="item" name="search_champ" placeholder="Recherche un item">
             <button type="submit">Rechercher</button>
@@ -49,7 +52,9 @@
             </table>
             <button id="addItem">Add item</button>
         </div>
-        <script src="/src/js/Recuperation.js"></script>
+
+
     </main>
+
 </body>
 </html>
